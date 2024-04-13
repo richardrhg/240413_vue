@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* .displayNone{
+            display: none;
+        } */
+    </style>
+</head>
+<body>
+    <!-- 原生 -->
+    <button onclick="add()">新增</button>
+    <ul id="list"></ul>
+    <!-- <p class="test">我是p</p>
+    <p class="test">我是p2</p>
+    <p class="test">我是p3</p>
+    <p class="test">我是p4</p>
+    <p class="test">我是p5</p>
+    <p class="test">我是p6</p>
+    <p class="test">我是7</p>
+    <p class="test">我是p</p>
+    <p class="test">我是p</p> -->
+    <script>
+        let arr = [];
+        let count = 1;
+        let list = document.getElementById("list");
+        let listClass = document.getElementsByClassName("test");
+        let query = document.querySelectorAll("p");
+        console.log(query)
+        query.forEach(e=>{
+            console.log(e)
+        })
+        console.log(listClass);
+        function add(){
+            arr.push({
+                "text":count,
+                "isEdit":false
+            })
+            count++;
+            show();
+        }
+        // function del(index){
+        //     arr.splice(index,1);
+        // }
+        // function edit(index){
+            
+        // }
+        function show(){
+            list.innerHTML = "";
+            for (let i=0;i<arr.length;i++) {
+                if(arr[i].isEdit){
+                    list.innerHTML += `
+                        <li>
+                            <input type="text" value="${arr[i].text}" id="${i}">&nbsp;
+                            <button onclick="del(`+ i +`)">刪除</button>
+                        </li>
+                        `
+                }else{
+                    list.innerHTML += `
+                        <li>
+                            <span onclick="edit(`+ i +`)">`+ arr[i].text +`</span>&nbsp;
+                            <button onclick="del(`+ i +`)">刪除</button>
+                        </li>
+                        `
+                }
+                    // <li onclick="edit(${i})">
+                    //     ${arr[i].text}&nbsp;
+                    //      <button onclick="del(${i})">刪除</button>
+                    // </li>
+            }
+            let inputs = document.querySelectorAll("input");
+            inputs.forEach(e=>{
+                e.addEventListener("keydown",function (key){
+                    console.log(key)
+                    if(key.keyCode == 13){
+                        console.log(e.id)
+                        arr[e.id].text = e.value;
+                        arr[e.id].isEdit = false;
+                        show();
+                    }
+                })
+            })
+        }
+        function edit(index){
+            arr[index].isEdit = true;
+            show();
+        }
+        function del(index){
+            arr.splice(index,1);
+            show();
+        }
+        // function enterEdit(index,element){
+        //     console.log(index,element)
+        // }
+    </script>
+</body>
+</html>

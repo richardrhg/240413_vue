@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- vue -->
+    <div id="app">
+        <!-- {{ name }}
+        {{ count }}
+        <span v-text="count"></span><br>
+        <button @click="change">觸發change</button><br>
+        <button onclick="countJs++">countJs++</button><br>
+        <button @click="count++">count++</button><br>
+        <input type="text" v-model="count">  -->
+        <button @click="add">新增</button><span>{{ p }}</span>
+        <ul>
+            <li v-for="(i,idx) in arr">
+                <span @click="i.isEdit = true" v-show="!i.isEdit">text: {{ i.text }}</span>
+                <input type="text" v-show="i.isEdit" v-model="i.text" @keydown.enter="i.isEdit = false">
+                &nbsp;<button @click="del(idx)">刪除</button> 
+            </li>
+        </ul>
+    </div> 
+</body>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="./option.js"></script>
+</html>

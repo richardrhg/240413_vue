@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .imageBig{
+            width: 200px;
+            height: auto;
+        }
+        .aclass{
+            opacity: 20%;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        {{ count }}
+        <button @click="count++">
+            {{count}}
+        </button>
+        <h1 v-text="name"></h1>
+        <h1>{{ name }}</h1>
+        <div v-html="testHtml"></div>
+        <div>{{ testHtml }}</div>
+        <!-- 符合條件才出現在 DOM -->
+
+        <button @click="number++">點我</button>
+
+        <p v-if="number == 1">number 為 1</p>
+        <p v-else-if="number == 2">number 為 2</p>
+        <p v-else>number 為 其他數字</p>
+
+        <ul>
+            <li v-for="(text, index) in arr">
+                {{ text }} + {{ index }}
+            </li>
+        </ul>
+        
+        <ul>
+            <li v-for="(text, index) in refArr">
+                {{ text }} + {{ index }}
+            </li>
+        </ul>
+        <button @click="refArr[0] = 'abcd'">change abcd</button>
+        <button @click="arr[0] = 'abcd'">change abcd</button>
+        <button @click="change">test</button>
+        <!-- 符合條件才顯示，不符合時是 display:none -->
+        <!-- <p v-show="number == 1">number 為 1</p> -->
+        <!-- <button onclick="countFnc()" id="btn"></button> -->
+        
+        <ul>
+            <li v-for="(text, index) in jsonExample">
+                <span v-for="(text2 ,idx) in text" @click="">{{ text2 }}</span>
+            </li>
+        </ul>
+
+
+        <img v-bind:src="image" v-bind:style="imageStyle" alt="">
+        <img :src="image" :style="" :class="imageClass" alt="">
+
+        <input type="text" v-model="modelText" @keydown.enter="number++">
+    </div>
+    {{ count }}
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script>
+        let count = 0;
+        $("#btn").text(count)
+        // document.getElementById
+        // $(".btn")
+        // document.getElementsByClassName
+        // $("p");
+        // document.getElementsByTagName("p");
+        // document.querySelector
+        // document.querySelectorAll
+        function countFnc(){
+            count++;
+            $("#btn").text(count)
+        }
+        
+        const {createApp , ref, reactive } = Vue;
+        createApp({ 
+            // coposition
+            setup() {
+                let testHtml = ref('<p>我自由拉</p>')
+                let arr = reactive(['a','b','c','d'])
+                let refArr = ref(['a','b','c','d'])
+                let jsonExample = reactive({
+                    1:{
+                        index:1,
+                        number:2
+                    },
+                    2:{
+                        index:2,
+                        number:3
+                    },
+                    3:{
+                        index:3,
+                        number:4
+                    },
+                })
+                let count = ref(0);
+                let countB = count.value;
+                function change(){
+                    if(refArr[0] == "a"){
+                        refArr[0] = "abbb";
+                    }
+                    if(arr[0] == "a"){
+                        arr[0] = "bbb"
+                    }
+                }
+                let image = ref("data:image/jpeg;base64,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")
+                return {
+                count,
+                countB,
+                name: ref("測試"),
+                number: ref(0),
+                testHtml,
+                arr,
+                refArr,
+                change,
+                jsonExample,
+                image,
+                imageStyle: ref("width:100px;height:100px;"),
+                imageClass: ref("imageBig aclass"),
+                modelText: ref("test")
+                }
+            }
+        }).mount('#app')
+        createApp({
+            // option
+            data(){
+                return {
+                    count: 0,
+                    name:"測試",
+                    number: 0,
+                    testHtml: '<p>我自由拉</p>'
+                }
+            }
+        }).mount("#app")
+        // let app = Vue.createApp({
+            // 舊版option
+        //     data(){
+        //         return {
+        //             count:0
+        //         }
+        //     }
+        // }).mount("#app")
+    </script>
+ 
+</body>
+</html>
